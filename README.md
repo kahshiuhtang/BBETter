@@ -29,3 +29,17 @@ Attempt to use ML techniques predict what are the best sports bets to take.
 * Visualization of old data
 
 * Receiving Sports Bet Probability
+
+## Models
+
+Some models I have interest in looking into
+
+* LogReg
+
+* RandomForest
+
+* GBM
+
+* PCA
+
+* GAN
