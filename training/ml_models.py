@@ -20,4 +20,4 @@ class KMeansModel:
     def test_model(self):
         pass
 model = KMeansModel()
-print(model.load_tables())
+model.load_tables()
