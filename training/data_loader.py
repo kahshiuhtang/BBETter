@@ -12,7 +12,7 @@ class DataLoader:
 
     def load_data(self):
         if self.load_all_data():
-            return
+            return self.merged_df
         self.merge_tables()
         self.clean_columns()
         self.clean_up_table()
@@ -23,6 +23,7 @@ class DataLoader:
     def load_all_data(self):
         if os.path.isfile(os.path.abspath('dataset/merged.csv')):
             self.merged_df = pd.read_csv(os.path.abspath(os.path.abspath('dataset/merged.csv')),dtype=str)
+            self.merged_df.fillna(value=0, inplace=True)
             return True
         for file in self.file_names:
             df = pd.read_csv(os.path.abspath(os.path.abspath(file)),dtype=str)
