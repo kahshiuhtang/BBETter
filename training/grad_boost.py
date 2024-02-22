@@ -1,8 +1,11 @@
 from data_loader import DataLoader
 from sklearn.model_selection import train_test_split
-from sklearn import tree
+from sklearn.ensemble import GradientBoostingRegressor
+from joblib import dump, load
 
-class TreeRegressorModel:
+
+# Too slow on my computer
+class GradBoostModel:
     def __init__(self):
         self.loader = DataLoader()
         self.training_full =None
@@ -28,14 +31,26 @@ class TreeRegressorModel:
         self.X_test = self.X_test.drop("PTS_away", axis="columns")
 
     def train_model(self):
-        self.model = tree.DecisionTreeRegressor(max_depth = 18, random_state = 0)
+        self.model = GradientBoostingRegressor(max_depth = 3, random_state = 0)
         self.model.fit(self.X_train, self.y_train)
 
     def test_model(self):
         self.score = self.model.score(self.X_test, self.y_test)
         return self.score
     
-model = TreeRegressorModel()
+    def save_model(self, file_path=None):
+        if file_path == None:
+            dump(self.model, '../models/grad_boost.joblib')
+        else:
+            dump(self.model, file_path)
+
+    def load_model(self, file_path=None):
+        if file_path == None:
+            self.model = load('../models/grad_boost.joblib')
+        else:
+            self.model = load(file_path)
+model = GradBoostModel()
 model.load_tables()
 model.train_model()
 print(model.test_model())
+model.save_model()
