@@ -43,3 +43,9 @@ Some models I have interest in looking into
 * PCA
 
 * GAN
+
+There should be two problems the models should model
+
+1) Given a player, player_team and opp_team, predict the player's stats
+
+2) Given a matchup (team vs. team), give a final score prediction

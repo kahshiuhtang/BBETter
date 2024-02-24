@@ -1,6 +1,7 @@
 from data_loader import DataLoader
 from sklearn.model_selection import train_test_split
 from sklearn import tree
+from joblib import load, dump
 
 class TreeRegressorModel:
     def __init__(self):
@@ -34,8 +35,20 @@ class TreeRegressorModel:
     def test_model(self):
         self.score = self.model.score(self.X_test, self.y_test)
         return self.score
+    def save_model(self, file_path=None):
+        if file_path == None:
+            dump(self.model, '../models/tree_reg.joblib')
+        else:
+            dump(self.model, file_path)
+
+    def load_model(self, file_path=None):
+        if file_path == None:
+            self.model = load('../models/tree_reg.joblib')
+        else:
+            self.model = load(file_path)
     
 model = TreeRegressorModel()
 model.load_tables()
 model.train_model()
 print(model.test_model())
+model.save_model()
