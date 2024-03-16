@@ -11,6 +11,8 @@ def get_last_nights_box_scores():
     teams_searched = set()
     for team in nba_teams:
         team_id = team['id']
+        if team_id in teams_searched:
+            continue
         gamefinder = leaguegamefinder.LeagueGameFinder(
             team_id_nullable=team_id)
         yesterdays_game = gamefinder.get_data_frames()[
@@ -22,6 +24,7 @@ def get_last_nights_box_scores():
             game = boxscoretraditionalv3.BoxScoreTraditionalV3(
                 game_id=game_id)
             box_score = game.get_data_frames()[0]
+            teams_searched |= set(box_score['teamId'].unique())
 
 
 get_last_nights_box_scores()
