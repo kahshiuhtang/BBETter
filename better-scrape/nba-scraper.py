@@ -1,6 +1,6 @@
 from nba_api.stats.endpoints import boxscoretraditionalv3, boxscoreusagev3, boxscoreadvancedv3, boxscoredefensivev2, boxscorefourfactorsv3, boxscorehustlev2, boxscorematchupsv3, boxscoremiscv3, boxscoreplayertrackv3, boxscorescoringv3, boxscoresummaryv2
 from nba_api.stats.endpoints import leaguegamefinder
-from nba_api.stats.endpoints import playergamelog
+from nba_api.stats.endpoints import playergamelog, leaguedashlineups
 from nba_api.stats.static import teams, players
 
 from datetime import date
@@ -69,6 +69,18 @@ def get_last_nights_box_scores():
             return
 
 
+def get_top_lineups():
+    lineup = leaguedashlineups.LeagueDashLineups(
+        measure_type_detailed_defense="Advanced")
+    line_up_data = lineup.get_data_frames()[0]
+    line_up_data.to_csv("top-lineups-advanced.csv")
+
+    lineup = leaguedashlineups.LeagueDashLineups(
+        measure_type_detailed_defense="Opponent")
+    line_up_data = lineup.get_data_frames()[0]
+    line_up_data.to_csv("top-lineups-opponents.csv")
+
+
 def get_player_career_stats():
     nba_players = players.get_active_players()
     for player in nba_players:
@@ -81,6 +93,3 @@ def get_player_career_stats():
             ['GAME_DATE', 'Game_ID', 'WL', 'MATCHUP', 'FT_PCT', 'FG3_PCT', 'FG_PCT'], axis=1)
         print(yearly_stats_df.to_csv("test.csv"))
         break
-
-
-get_last_nights_box_scores()
