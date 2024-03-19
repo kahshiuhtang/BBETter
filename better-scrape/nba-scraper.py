@@ -1,9 +1,7 @@
-from nba_api.stats.endpoints import boxscoretraditionalv3
+from nba_api.stats.endpoints import boxscoretraditionalv3, boxscoreusagev3, boxscoreadvancedv3, boxscoredefensivev2, boxscorefourfactorsv3, boxscorehustlev2, boxscorematchupsv3, boxscoremiscv3, boxscoreplayertrackv3, boxscorescoringv3, boxscoresummaryv2
 from nba_api.stats.endpoints import leaguegamefinder
-from nba_api.stats.endpoints import boxscoreusagev3
 from nba_api.stats.endpoints import playergamelog
-from nba_api.stats.static import teams
-from nba_api.stats.static import players
+from nba_api.stats.static import teams, players
 
 from datetime import date
 from datetime import timedelta
@@ -29,6 +27,47 @@ def get_last_nights_box_scores():
             box_score = game.get_data_frames()[0]
             teams_searched |= set(box_score['teamId'].unique())
 
+            game = boxscoreusagev3.BoxScoreUsageV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreUsageV3.csv")
+
+            game = boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreAdvancedV3.csv")
+
+            game = boxscoredefensivev2.BoxScoreDefensiveV2(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreDefensiveV2.csv")
+
+            game = boxscorefourfactorsv3.BoxScoreFourFactorsV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreFourFactorsV3.csv")
+
+            game = boxscorehustlev2.BoxScoreHustleV2(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreHustleV2.csv")
+
+            game = boxscorematchupsv3.BoxScoreMatchupsV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreMatchupsV3.csv")
+
+            game = boxscoremiscv3.BoxScoreMiscV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreMiscV3.csv")
+
+            game = boxscoreplayertrackv3.BoxScorePlayerTrackV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScorePlayerTrackV3.csv")
+
+            game = boxscorescoringv3.BoxScoreScoringV3(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreScoringV3.csv")
+
+            game = boxscoresummaryv2.BoxScoreSummaryV2(game_id=game_id)
+            box_score = game.get_data_frames()[0]
+            box_score.to_csv("BoxScoreSummaryV2.csv")
+            return
+
 
 def get_player_career_stats():
     nba_players = players.get_active_players()
@@ -44,4 +83,4 @@ def get_player_career_stats():
         break
 
 
-get_player_career_stats()
+get_last_nights_box_scores()
