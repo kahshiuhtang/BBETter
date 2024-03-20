@@ -30,22 +30,12 @@ Attempt to use ML techniques predict what are the best sports bets to take.
 
 * Receiving Sports Bet Probability
 
-## Models
+## Plan
 
-Some models I have interest in looking into
+There are two main goals I have in mind:
 
-* LogReg
+1) Create a DL model to predict the stats from a given matchup for a player. I think RNN is the best path for this step
 
-* RandomForest
+2) Use XGBoost to do the same task, or some other tree-based ML technique
 
-* GBM
-
-* PCA
-
-* GAN
-
-There should be two problems the models should model
-
-1) Given a player, player_team and opp_team, predict the player's stats
-
-2) Given a matchup (team vs. team), give a final score prediction
+Firstly, I need to collect and download the data from NBA_api. Multiple models may be nessecary, to represent current form and historical form.  I would need to reduce down the dimensions because there are way too many columns, perhaps using PCA. I am not sure about the training aspect, but it should be doable locally. I want to be able to continuously update the model, so perhaps I will need to buy more SSD storage for my local machine.
