@@ -49,32 +49,3 @@ There should be two problems the models should model
 1) Given a player, player_team and opp_team, predict the player's stats
 
 2) Given a matchup (team vs. team), give a final score prediction
-
-Needed Fields:
-HustleStatsBoxScore
-LeagueDashLineups (Advanced, Opponent)
-LeagueDashPlayerPtShot (PerGame)
-LeagueDashPlayerShotLocations(ByZone)
-LeagueDashPlayerStats
-LeagueDashPtStats
-LeagueDashTeamClutch (Mins)
-LeagueDashTeamStats
-LeagueHustleStatsPlayer (Per48)
-LeagueHustleStatsTeam (Per48)
-MatchupsRollup
-PlayerDashPtPass
-PlayerDashPtReb
-PlayerDashPtShots
-PlayerEstimatedMetrics
-PlayerVsPlayer
-ShotChartDetail
-ShotChartLineupDetail
-SynergyPlayTypes
-TeamPlayerOnOffSummary
-TeamPlayerOnOffDetails
-TeamDashboardByShootingSplits
-TeamDashPtShots
-TeamDashPtPass
-TeamDashPtReb
-TeamDashPtLineups
-TeamEstimatedMetrics
