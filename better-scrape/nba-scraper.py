@@ -9,6 +9,57 @@ from nba_api.stats.static import teams, players
 from datetime import date
 from datetime import timedelta
 
+def _get_box_scores(game_id):
+    game = boxscoretraditionalv3.BoxScoreTraditionalV3(
+        game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    ret_val = box_score['teamId'].unique()
+
+    game = boxscoreusagev3.BoxScoreUsageV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreUsageV3.csv")
+
+    game = boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreAdvancedV3.csv")
+    return ret_val
+    game = boxscoredefensivev2.BoxScoreDefensiveV2(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreDefensiveV2.csv")
+
+    game = boxscorefourfactorsv3.BoxScoreFourFactorsV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreFourFactorsV3.csv")
+
+    game = boxscorehustlev2.BoxScoreHustleV2(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreHustleV2.csv")
+
+    game = boxscorematchupsv3.BoxScoreMatchupsV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreMatchupsV3.csv")
+
+    game = boxscoremiscv3.BoxScoreMiscV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreMiscV3.csv")
+
+    game = boxscoreplayertrackv3.BoxScorePlayerTrackV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScorePlayerTrackV3.csv")
+
+    game = boxscorescoringv3.BoxScoreScoringV3(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreScoringV3.csv")
+
+    game = boxscoresummaryv2.BoxScoreSummaryV2(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreSummaryV2.csv")
+
+    game = hustlestatsboxscore.HustleStatsBoxScore(game_id=game_id)
+    box_score = game.get_data_frames()[0]
+    box_score.to_csv("BoxScoreHustle.csv")
+
+    return ret_val
 
 def get_last_nights_box_scores():
     nba_teams = teams.get_teams()
@@ -25,54 +76,8 @@ def get_last_nights_box_scores():
         game_date = yesterdays_game['GAME_DATE']
         yesterday = date.today() - timedelta(days=1)
         if str(game_date) == str(yesterday):
-            game = boxscoretraditionalv3.BoxScoreTraditionalV3(
-                game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            teams_searched |= set(box_score['teamId'].unique())
-
-            game = boxscoreusagev3.BoxScoreUsageV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreUsageV3.csv")
-
-            game = boxscoreadvancedv3.BoxScoreAdvancedV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreAdvancedV3.csv")
-
-            game = boxscoredefensivev2.BoxScoreDefensiveV2(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreDefensiveV2.csv")
-
-            game = boxscorefourfactorsv3.BoxScoreFourFactorsV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreFourFactorsV3.csv")
-
-            game = boxscorehustlev2.BoxScoreHustleV2(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreHustleV2.csv")
-
-            game = boxscorematchupsv3.BoxScoreMatchupsV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreMatchupsV3.csv")
-
-            game = boxscoremiscv3.BoxScoreMiscV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreMiscV3.csv")
-
-            game = boxscoreplayertrackv3.BoxScorePlayerTrackV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScorePlayerTrackV3.csv")
-
-            game = boxscorescoringv3.BoxScoreScoringV3(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreScoringV3.csv")
-
-            game = boxscoresummaryv2.BoxScoreSummaryV2(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreSummaryV2.csv")
-
-            game = hustlestatsboxscore.HustleStatsBoxScore(game_id=game_id)
-            box_score = game.get_data_frames()[0]
-            box_score.to_csv("BoxScoreHustle.csv")
+            ret = _get_box_scores(game_id)
+            teams_searched |= ret
             return
 
 
@@ -99,7 +104,7 @@ def get_player_career_stats():
             ['GAME_DATE', 'Game_ID', 'WL', 'MATCHUP', 'FT_PCT', 'FG3_PCT', 'FG_PCT'], axis=1)
         break
 
-def pass1():
+def get_lineup_data():
     lineups = leaguedashlineups.LeagueDashLineups(measure_type_detailed_defense="Advanced",per_mode_detailed="Per48")
     lineups.get_data_frames()[0].to_csv("advanced_lineups.csv")
     lineups =leaguedashlineups.LeagueDashLineups(measure_type_detailed_defense="Opponent",per_mode_detailed="Per48")
@@ -179,23 +184,41 @@ def get_other_player_info():
 
 def get_on_off_details():
     # [NOTE] Need team_id
-    onoffdetails = teamplayeronoffdetails.TeamPlayerOnOffDetails(last_n_games="10")
-    onoffdetails.get_data_frames()[0].to_csv("onoff_details.csv")
-    onoffsummary = teamplayeronoffsummary.TeamPlayerOnOffSummary(last_n_games="10")
-    onoffdetails.get_data_frames()[0].to_csv("onoff_summary.csv")
+    nba_teams = teams.get_teams()
+    for team in nba_teams:
+        team_id = team["id"]
+        team_pt_shots = teamdashptshots.TeamDashPtShots(last_n_games="10", team_id=team_id)
+        team_pt_shots.get_data_frames()[0].to_csv(str(team["id"]) + "_team_pt_shots.csv")
+        team_pt_pass = teamdashptpass.TeamDashPtPass(last_n_games="10", team_id=team_id)
+        team_pt_pass.get_data_frames()[0].to_csv(str(team["id"]) +"_team_pt_pass.csv")
+        team_pt_est_metrics = teamestimatedmetrics.TeamEstimatedMetrics()
+        team_pt_est_metrics.get_data_frames()[0].to_csv(str(team["id"]) + "_team_pt_est_metrics.csv")
+        return
 
-    team_pt_shots = teamdashptshots.TeamDashPtShots(last_n_games="10")
-    team_pt_shots.get_data_frames()[0].to_csv("team_pt_shots.csv")
-    team_pt_pass = teamdashptpass.TeamDashPtPass(last_n_games="10")
-    team_pt_pass.get_data_frames()[0].to_csv("team_pt_pass.csv")
-    team_pt_reb = teamdashptreb.TeamDashPtReb(last_n_games="10")
-    team_pt_reb.get_data_frames()[0].to_csv("team_pt_reb.csv")
-    team_pt_lineups = teamdashlineups.TeamDashPtLineups(last_n_games="10")
-    team_pt_lineups.get_data_frames()[0].to_csv("team_pt_lineups.csv")
-    team_pt_est_metrics = teamestimatedmetrics.TeamEstimatedMetrics(last_n_games="10")
-    team_pt_est_metrics.get_data_frames()[0].to_csv("team_pt_est_metrics.csv")
+def get_all_games_last_15_years():
+    nba_teams = teams.get_teams()
+    game_ids = set()
+    for i in range(23,24):
+        season_year = "20" + str(i) + "-" + str(i+1)
+        for team in nba_teams:
+            team_id = team['id']
+            gamefinder = leaguegamefinder.LeagueGameFinder(season_nullable=season_year, team_id_nullable=team_id)
+            all_games = gamefinder.get_data_frames()[
+                0].sort_values('GAME_DATE')
+            for game_id in all_games['GAME_ID']:
+                print("New Round")
+                _get_box_scores(game_id)
+            print(all_games.to_csv("GAMES.csv"))
+            break
 """
 LeagueDashTeamClutch (Mins)
 [NOTE]: Add in this metric later
 """
+import nba_scraper.nba_scraper as ns
 
+#scrape a season
+nba_df = ns.scrape_season(2019)
+
+# if you want a csv if you don't pass a file path the default is home
+# directory
+ns.scrape_season(2019, data_format='csv', data_dir='file/path')
