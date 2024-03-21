@@ -38,4 +38,4 @@ There are two main goals I have in mind:
 
 2) Use XGBoost to do the same task, or some other tree-based ML technique
 
-Firstly, I need to collect and download the data from NBA_api. Multiple models may be nessecary, to represent current form and historical form.  I would need to reduce down the dimensions because there are way too many columns, perhaps using PCA. I am not sure about the training aspect, but it should be doable locally. I want to be able to continuously update the model, so perhaps I will need to buy more SSD storage for my local machine.
+Firstly, I need to collect and download the data from NBA_api. NBA_api is really only good for data that is rather small. I will create a RNN and swap the head layer because I will use a dataset of pure games to train those layers. Also, I would need to reduce down the dimensions because there are way too many columns, perhaps using PCA. I am not sure about the training aspect, but it should be doable locally. I want to be able to continuously update the model, so perhaps I will need to buy more SSD storage for my local machine. This will require its own head layer.
